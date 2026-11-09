@@ -3211,7 +3211,7 @@ function officeCard(o,i){
 }
 function parseDate(s){var p=s.split(', ')[1].split(' ');return {d:p[0],m:p[1].slice(0,3),y:p[2]}}
 function eventImage(e){return /^https?:\/\//i.test(e.img)?e.img:'https://careergyan.co/images/content/events/'+e.img}
-function eventLink(e){return e.page?'#workshop-registration':'#/contact'}
+function eventLink(e){return e.page?'#/workshop/event':'#/contact'}
 function eventCard(e,i,rv){
   var dt=parseDate(e.d),src=eventImage(e),url=eventLink(e);
   var place=e.m?'<a href="'+e.m+'" target="_blank" rel="noopener">'+icon('pin')+'<span>'+esc(e.l)+'</span></a>':'<div>'+icon('pin')+'<span>'+esc(e.l)+'</span></div>';
@@ -3310,7 +3310,7 @@ function legalDocument(kind){
 }
 
 /* ---------- ROUTER ---------- */
-var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','events':'events','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
+var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','events':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
 var TITLES={home:'Abroad Education Consultants in India - Career Gyan',about:'About Career Gyan | Your Trusted Study Abroad Guide',arts:'Arts – Study Abroad Programs | Career Gyan',events:'Upcoming Study Abroad Fairs & Events | Career Gyan',bangalore:'Best Study Abroad Consultants in Bangalore | Career Gyan Bangalore',contact:'Contact Career Gyan | Get Study Abroad Assistance',eligibility:'Study Abroad Eligibility Checker | Career Gyan'};
 var NAVKEY={about:'about',arts:'course',events:'events',bangalore:'location',contact:'contact'};
 var current=null;
@@ -4255,6 +4255,9 @@ route();
     var bytes = Uint8Array.from(binary, function(ch){return ch.charCodeAt(0);});
     return new TextDecoder('utf-8').decode(bytes);
   }
+  function isWorkshopRoute(){
+    return location.hash.replace(/^#\/?/,'').replace(/\/$/,'').toLowerCase()==='workshop/event';
+  }
   window.openWorkshopRegistration = function(){
     var overlay = document.getElementById('cg-workshop-overlay');
     var frame = document.getElementById('cg-workshop-frame');
@@ -4269,13 +4272,29 @@ route();
     overlay.classList.remove('cg-open');
     overlay.setAttribute('aria-hidden','true');
     document.body.style.overflow='';
+    if(isWorkshopRoute()) location.hash='#/events';
   };
+  function syncWorkshopRoute(){
+    if(isWorkshopRoute()) window.openWorkshopRegistration();
+    else {
+      var overlay=document.getElementById('cg-workshop-overlay');
+      if(overlay && overlay.classList.contains('cg-open')){
+        overlay.classList.remove('cg-open');
+        overlay.setAttribute('aria-hidden','true');
+        document.body.style.overflow='';
+      }
+    }
+  }
+  window.addEventListener('hashchange',syncWorkshopRoute);
   document.addEventListener('click', function(event){
     var link = event.target.closest && event.target.closest('a[href="#workshop-registration"]');
     if(!link) return;
     event.preventDefault();
-    window.openWorkshopRegistration();
+    if(isWorkshopRoute()) window.openWorkshopRegistration();
+    else location.hash='#/workshop/event';
   });
+  // Restore the registration page when the URL is opened directly or refreshed.
+  syncWorkshopRoute();
   document.addEventListener('keydown', function(event){
     if(event.key==='Escape' && document.getElementById('cg-workshop-overlay').classList.contains('cg-open')) {
       window.closeWorkshopRegistration();
