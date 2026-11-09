@@ -2299,7 +2299,7 @@ textarea.el-in{min-height:110px;resize:vertical}
         <button class="nav-link" data-nav="course" aria-haspopup="true" aria-expanded="false">Courses <svg class="ic chev"><use href="#i-chev"/></svg></button>
         <div class="dd"><div class="dd-head">Explore by course</div><div id="dd-courses"></div></div>
       </div>
-      <div class="nav-item"><a class="nav-link" href="#/events" data-nav="events">Workshops</a></div>
+      <div class="nav-item"><a class="nav-link" href="#/workshop" data-nav="events">Workshops</a></div>
       <div class="nav-item"><a class="nav-link" href="#/student-loan">Student Loan</a></div>
       <div class="nav-item has-dd">
         <button class="nav-link" data-nav="location" aria-haspopup="true" aria-expanded="false">Our Locations <svg class="ic chev"><use href="#i-chev"/></svg></button>
@@ -2323,7 +2323,7 @@ textarea.el-in{min-height:110px;resize:vertical}
     <a class="m-link" href="#/about">About Us</a>
     <div class="m-acc"><button>Countries <svg class="ic"><use href="#i-chev"/></svg></button><div class="m-sub"><div><div class="m-sub-in" id="m-countries"></div></div></div></div>
     <div class="m-acc"><button>Courses <svg class="ic"><use href="#i-chev"/></svg></button><div class="m-sub"><div><div class="m-sub-in" id="m-courses"></div></div></div></div>
-    <a class="m-link" href="#/events">Workshops</a>
+    <a class="m-link" href="#/workshop">Workshops</a>
     <a class="m-link" href="#/student-loan">Student Loan</a>
     <div class="m-acc"><button>Our Locations <svg class="ic"><use href="#i-chev"/></svg></button><div class="m-sub"><div><div class="m-sub-in" id="m-locations"></div></div></div></div>
     <a class="m-link" href="#/contact">Contact Us</a>
@@ -2529,7 +2529,7 @@ textarea.el-in{min-height:110px;resize:vertical}
     <div class="container">
       <div class="hx-head">
         <div><span class="hx-eb rv"><em>09</em>Our Latest Events</span><h2 class="hx-h2 rv" style="--d:.06s">Meet universities at our fairs and <span class="serif">workshops</span></h2></div>
-        <div class="hx-head-r"><a class="hx-link rv" style="--d:.12s" href="#/events"><span>All workshops</span><i><svg class="ic"><use href="#i-arrow"/></svg></i></a></div>
+        <div class="hx-head-r"><a class="hx-link rv" style="--d:.12s" href="#/workshop"><span>All workshops</span><i><svg class="ic"><use href="#i-arrow"/></svg></i></a></div>
       </div>
       <div class="hx-tickets" id="home-events"></div>
       <div class="hx-allc" id="evMore"><div><div class="hx-tickets" id="home-events-more" style="padding-top:20px"></div></div></div>
@@ -2641,7 +2641,7 @@ textarea.el-in{min-height:110px;resize:vertical}
         <span class="eyebrow gold rv">About Us</span>
         <h1 class="rv" style="--d:.06s">Where Dreams Become <span class="serif">Beginnings</span></h1>
         <p class="h-lead rv" style="--d:.12s">For more than a decade, CareerGyan has been the trusted study abroad consultant offering expert guidance and comprehensive support to students by harnessing excellence spanning universities, recruiters, and resources.</p>
-        <div class="h-actions rv" style="--d:.18s"><a class="btn btn-gold" href="#/contact">Book An Appointment <svg class="ic"><use href="#i-arrow"/></svg></a><a class="btn btn-glass" href="#/events">Explore Events</a></div>
+        <div class="h-actions rv" style="--d:.18s"><a class="btn btn-gold" href="#/contact">Book An Appointment <svg class="ic"><use href="#i-arrow"/></svg></a><a class="btn btn-glass" href="#/workshop">Explore Events</a></div>
       </div>
       <div class="glass rv" style="--d:.2s">
         <div class="glass-h"><span>Recognised globally</span><svg class="ic"><use href="#i-award"/></svg></div>
@@ -3062,7 +3062,7 @@ textarea.el-in{min-height:110px;resize:vertical}
       </div>
       <div class="f-col"><h4>Study in</h4><ul class="f-cols-2" id="f-countries"></ul></div>
       <div class="f-col"><h4>Company</h4><ul>
-        <li><a href="#/about">About us</a></li><li><a href="#/events">Workshops</a></li><li><a href="#/contact">Contact</a></li>
+        <li><a href="#/about">About us</a></li><li><a href="#/workshop">Workshops</a></li><li><a href="#/contact">Contact</a></li>
       </ul><h4 style="margin-top:28px">Courses</h4><ul id="f-courses" class="f-cols-2"></ul></div>
       <div class="f-col"><h4>Resources</h4><ul>
         <li><a href="https://qckloans.com/german-grade-calculator" target="_blank" rel="noopener">Germany Calculator</a></li><li><a href="#/student-loan">Student Loan</a></li>
@@ -3310,9 +3310,9 @@ function legalDocument(kind){
 }
 
 /* ---------- ROUTER ---------- */
-var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','events':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
+var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
 var TITLES={home:'Abroad Education Consultants in India - Career Gyan',about:'About Career Gyan | Your Trusted Study Abroad Guide',arts:'Arts – Study Abroad Programs | Career Gyan',events:'Upcoming Study Abroad Fairs & Events | Career Gyan',bangalore:'Best Study Abroad Consultants in Bangalore | Career Gyan Bangalore',contact:'Contact Career Gyan | Get Study Abroad Assistance',eligibility:'Study Abroad Eligibility Checker | Career Gyan'};
-var NAVKEY={about:'about',arts:'course',events:'events',bangalore:'location',contact:'contact'};
+var NAVKEY={about:'about',arts:'course',workshop:'events',bangalore:'location',contact:'contact'};
 var current=null;
 
 function route(){
@@ -4215,7 +4215,7 @@ function initEventPopup(){
     '<div class="evpop-img"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img src="'+src+'" alt="'+esc(e.t)+'"></div>'+
     '<div class="evpop-b"><span class="evpop-tag">'+(pick.upcoming?'Next event · Register now':'Our latest event')+'</span><h3>'+esc(e.t)+'</h3>'+
     '<div class="evpop-meta"><span>'+icon('cal')+e.d+'</span><span>'+icon('clock')+e.tm+'</span><span>'+icon('pin')+esc(e.l)+'</span></div>'+
-    '<div class="evpop-act"><a class="btn btn-gold" href="'+eventUrl+'">'+(e.page?'Register for this workshop':(pick.upcoming?'Register now':'Enquire about upcoming events'))+' '+icon('arrow')+'</a><a class="btn btn-ghost" href="#/events">All workshops &amp; events</a></div></div></div>';
+    '<div class="evpop-act"><a class="btn btn-gold" href="'+eventUrl+'">'+(e.page?'Register for this workshop':(pick.upcoming?'Register now':'Enquire about upcoming events'))+' '+icon('arrow')+'</a><a class="btn btn-ghost" href="#/workshop">All workshops &amp; events</a></div></div></div>';
   document.body.appendChild(pop);
   function close(){pop.classList.remove('show');try{sessionStorage.setItem('cgEvPopStudyEurope2027','1')}catch(x){}setTimeout(function(){pop.remove()},300);document.removeEventListener('keydown',key)}
   function key(ev){if(ev.key==='Escape')close()}
@@ -4272,7 +4272,7 @@ route();
     overlay.classList.remove('cg-open');
     overlay.setAttribute('aria-hidden','true');
     document.body.style.overflow='';
-    if(isWorkshopRoute()) location.hash='#/events';
+    if(isWorkshopRoute()) location.hash='#/workshop';
   };
   function syncWorkshopRoute(){
     if(isWorkshopRoute()) window.openWorkshopRegistration();
