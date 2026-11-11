@@ -1,0 +1,382 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/about-us.php",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-uk.php",
+      "destination": "/study-in-uk",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-usa.php",
+      "destination": "/study-in-usa",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-canada.php",
+      "destination": "/study-in-canada",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-france.php",
+      "destination": "/study-in-france",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-germany.php",
+      "destination": "/study-in-germany",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-spain.php",
+      "destination": "/study-in-spain",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-netherlands.php",
+      "destination": "/study-in-netherlands",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-australia.php",
+      "destination": "/study-in-australia",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-new-zealand.php",
+      "destination": "/study-in-new-zealand",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-romania.php",
+      "destination": "/study-in-romania",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-hungary.php",
+      "destination": "/study-in-hungary",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-ireland.php",
+      "destination": "/study-in-ireland",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-sweden.php",
+      "destination": "/study-in-sweden",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-latvia.php",
+      "destination": "/study-in-latvia",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-lithuania.php",
+      "destination": "/study-in-lithuania",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-poland.php",
+      "destination": "/study-in-poland",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-finland.php",
+      "destination": "/study-in-finland",
+      "permanent": true
+    },
+    {
+      "source": "/study-in-italy.php",
+      "destination": "/study-in-italy",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Arts"
+        }
+      ],
+      "destination": "/course-arts",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "arts"
+        }
+      ],
+      "destination": "/course-arts",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Engineering"
+        }
+      ],
+      "destination": "/course-engineering",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "engineering"
+        }
+      ],
+      "destination": "/course-engineering",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Management"
+        }
+      ],
+      "destination": "/course-management",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "management"
+        }
+      ],
+      "destination": "/course-management",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Medicine"
+        }
+      ],
+      "destination": "/course-medicine",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "medicine"
+        }
+      ],
+      "destination": "/course-medicine",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Pharmacy"
+        }
+      ],
+      "destination": "/course-pharmacy",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "pharmacy"
+        }
+      ],
+      "destination": "/course-pharmacy",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Science"
+        }
+      ],
+      "destination": "/course-science",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "science"
+        }
+      ],
+      "destination": "/course-science",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "Technology"
+        }
+      ],
+      "destination": "/course-technology",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "course_name",
+          "value": "technology"
+        }
+      ],
+      "destination": "/course-technology",
+      "permanent": true
+    },
+    {
+      "source": "/course.php",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/events.php",
+      "destination": "/workshops",
+      "permanent": true
+    },
+    {
+      "source": "/events",
+      "destination": "/workshops",
+      "permanent": true
+    },
+    {
+      "source": "/contact.php",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy.php",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/terms-and-conditions.php",
+      "destination": "/terms-and-conditions",
+      "permanent": true
+    },
+    {
+      "source": "/gallery.php",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/abroad-education-consultants-in-bangalore.php",
+      "destination": "/abroad-education-consultants-in-bangalore",
+      "permanent": true
+    },
+    {
+      "source": "/abroad-education-consultants-in-hyderabad.php",
+      "destination": "/abroad-education-consultants-in-hyderabad",
+      "permanent": true
+    },
+    {
+      "source": "/abroad-education-consultants-in-bahrain.php",
+      "destination": "/abroad-education-consultants-in-bahrain",
+      "permanent": true
+    },
+    {
+      "source": "/study-abroad-consultants-in-germany.php",
+      "destination": "/study-abroad-consultants-in-germany",
+      "permanent": true
+    },
+    {
+      "source": "/abroad-education-consultants-in-pune.php",
+      "destination": "/abroad-education-consultants-in-pune",
+      "permanent": true
+    },
+    {
+      "source": "/check-eligibility",
+      "destination": "/eligibility",
+      "permanent": true
+    },
+    {
+      "source": "/workshop",
+      "destination": "/workshops",
+      "permanent": true
+    },
+    {
+      "source": "/workshop-registration",
+      "destination": "/workshops/workshop-registration",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), usb=(), magnetometer=(), gyroscope=()"
+        }
+      ]
+    }
+  ]
+}
