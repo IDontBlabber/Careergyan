@@ -150,8 +150,8 @@
 +    '<div class="h-actions rv" style="--d:.18s"><a class="btn btn-gold" href="contact.html">Talk to our experts '+icon('arrow')+'</a><a class="btn btn-glass" href="eligibility.html">Check Eligibility</a></div></div>'+glass+'</div></div>'+
 +    '<section class="section" style="padding-bottom:0"><div class="container"><div class="notice rv"><p>Our counsellors can share complete, up-to-date details for this program. Book a free counselling session to get started.</p><a class="btn btn-primary" href="contact.html">Talk to our experts '+icon('arrow')+'</a></div></div></section>'+body+
 @@ -224 +236 @@
--  return '<div class="legal-page"><a class="legal-back" href="#/">← Back to CareerGyan</a>'+body+'<p class="legal-copy">© 2026 Powered and secured by I Don't Blabber</p></div>';
-+  return '<div class="legal-page"><a class="legal-back" href="index.html">← Back to CareerGyan</a>'+body+'<p class="legal-copy">© 2026 Powered and secured by I Don't Blabber</p></div>';
+-  return '<div class="legal-page"><a class="legal-back" href="#/">← Back to CareerGyan</a>'+body+'<p class="legal-copy">2025 © All rights reserved by Career Gyan</p></div>';
++  return '<div class="legal-page"><a class="legal-back" href="index.html">← Back to CareerGyan</a>'+body+'<p class="legal-copy">2025 © All rights reserved by Career Gyan</p></div>';
 @@ -228 +240 @@
 -var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
 +var STATIC={'not-found':'notfound','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
