@@ -131,3 +131,20 @@ The short "Good to know" summary cards were removed on these pages, because the 
 - Sweden's highest-paying jobs table lists "Judge" twice. Kept as on the live site.
 - Two cost tables (Ireland, Lithuania) came out of the copied text with merged cells in the wrong order. They were rebuilt with the same values.
 
+
+## Price format (2026-11-12, requested)
+Every price on the 18 country pages follows one rule:
+- **Currency on every amount, written before it:** "EUR 300 to 800 per month" becomes "EUR 300 to EUR 800* per month", and "450 – 1,800 AUD" becomes "AUD 450 – AUD 1,800*".
+- **Table columns:** where a column header names the currency, e.g. "Cost in CAD" or "Salary Range (HUF)", that currency is added to each amount in the column.
+- **An * at the end of every price.** For a range it goes after the last amount.
+
+This applies to the tables, the paragraphs and the "at a glance" boxes. Counts that aren't prices are left alone, such as the UK and Sweden "Number of Employees". The existing "* Approximate figures…" note explains the *.
+
+**Small fixes made along the way:**
+- "€ 900" → "€900"
+- "EUR41" → "EUR 41"
+- "156,000 Euro" → "€156,000*"
+- Latvia's "1EUR 00–350 EUR" → "EUR 100–EUR 350*" (a typo on the live page)
+
+**Not changed:** the workshop registration page. "₹1,449 + GST" is the actual fee charged at checkout, not an estimate, so it gets no *.
+
