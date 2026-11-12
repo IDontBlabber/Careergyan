@@ -65,6 +65,14 @@ All three forms save into the **same Supabase project** as the workshop registra
 
 **One-time setup:** in Supabase Dashboard → SQL Editor, paste `supabase/schema.sql` and run it. Then submit each form once and check Table Editor.
 
+**Email alerts with Web3Forms (home + contact forms).** Each enquiry is saved in Supabase and also emailed to the admin through Web3Forms. No Edge Function and no Resend are needed.
+
+1. Go to https://web3forms.com, enter the admin email address (e.g. enquiry@careergyan.co) and create an access key. The key arrives by email.
+2. **Already done:** the access key `be2dc764-a821-493c-bba0-df3d05a09c41` is set in `assets/js/main.js` (search `CG_WEB3FORMS_KEY`). To change it, replace the value, keeping the quotes. The key is meant to be public, so it's fine in the website code.
+3. Upload the site and submit each form once. The admin gets an email with the subject "New website enquiry: <name> (Home page / Contact page)". Reply-to is set to the student's email, so "Reply" answers the student.
+
+Saving to Supabase and emailing happen at the same time. If either works, the visitor sees "Thank you…". Only if both fail does the visitor's email app open with the enquiry filled in. The Web3Forms free plan allows 250 submissions a month.
+
 Visitors can only *insert* rows. Reading the data needs a Supabase login. If saving ever fails (offline, table missing), the enquiry forms fall back to the original behaviour and open the visitor's email app, so no lead is lost.
 
 ## Eligibility checker

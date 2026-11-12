@@ -455,7 +455,7 @@
 @@ -1142 +1167 @@
 -  var h=location.hash.replace(/^#\/?/,'');
 +  var h=document.body.getAttribute('data-route')||'';
-@@ -1147,0 +1173,220 @@
+@@ -1147,0 +1173,208 @@
 +
 +/* =====================================================================
 +   ADDED (2026-11-11): Supabase saving for the enquiry forms + eligibility
@@ -468,6 +468,19 @@
 +  return fetch(CG_SUPABASE_URL+'/rest/v1/'+table,{method:'POST',headers:{'Content-Type':'application/json','apikey':CG_SUPABASE_KEY,'Prefer':'return=minimal'},body:JSON.stringify(row)})
 +    .then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error('Supabase '+r.status+': '+t)});return true});
 +}
++/* Web3Forms: emails each home/contact enquiry to the admin, alongside saving it in Supabase.
++   Get a free access key at https://web3forms.com (it is meant to be public) and paste it below. */
++var CG_WEB3FORMS_KEY='be2dc764-a821-493c-bba0-df3d05a09c41'; // <- your Web3Forms access key
++function cgMailEnquiry(row){
++  if(!CG_WEB3FORMS_KEY||/PASTE_YOUR/.test(CG_WEB3FORMS_KEY))return Promise.reject(new Error('Web3Forms access key not set'));
++  var where=row.source==='home'?'Home page – Book a free counselling session':'Contact Us page – Enquiry form';
++  var data={access_key:CG_WEB3FORMS_KEY,subject:'New website enquiry: '+(row.full_name||'')+' ('+(row.source==='home'?'Home page':'Contact page')+')',from_name:'Career Gyan website',botcheck:'',
++    'Form':where,'Name':row.full_name,'Email':row.email,'Phone':row.phone,'City':row.city,'Preferred destination':row.destination,'Course':row.course,'Planned month':row.intake_month,'Preferred year':row.intake_year,'Message':row.message,'Page':row.page_url};
++  Object.keys(data).forEach(function(k){if(data[k]==null)delete data[k]});
++  if(row.email)data.replyto=row.email;
++  return fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
++    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok||j.success===false)throw new Error('Web3Forms '+r.status+': '+(j.message||''));return true})});
++}
 +/* enquiry forms (home "Book a free counselling session" + contact page): save to table "enquiries".
 +   If saving fails, fall back to the original behaviour (open the visitor's email app). */
 +function cgSendEnquiry(form,note,mailto){
@@ -476,7 +489,9 @@
 +    destination:v('Preferred Study Destination'),course:v('Course'),intake_month:v('Planned Month'),intake_year:v('Preferred Year'),message:v('Message'),page_url:location.href.slice(0,500)};
 +  var btn=form.querySelector('[type="submit"]');if(btn)btn.disabled=true;
 +  note.textContent='Sending your enquiry…';note.classList.add('show');
-+  cgInsert('enquiries',row).then(function(){
++  Promise.allSettled([cgInsert('enquiries',row),cgMailEnquiry(row)]).then(function(res){
++    if(res[0].status!=='fulfilled'&&res[1].status!=='fulfilled')throw (res[0].reason||res[1].reason);
++    try{res.forEach(function(r){if(r.status!=='fulfilled')console.warn(r.reason)})}catch(x){}
 +    form.reset();
 +    note.innerHTML='Thank you! Your enquiry has been received. A Career Gyan counsellor will contact you shortly. You can also call <a href="tel:+919606868888">+91 96068 68888</a>.';
 +  }).catch(function(err){
@@ -648,37 +663,10 @@
 +  return h;
 +}
 +function cgWhy(cards){var ic=['award','users','globe','shield'];return '<div class="cg4">'+cards.map(function(c,i){return '<div class="cg rv" style="--d:'+(i*.08)+'s"><span class="hf-ic">'+icon(ic[i%4])+'</span><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p></div>'}).join('')+'</div>'}
-+function cgCountryForm(d){
-+  var id='cf-'+d.name.toLowerCase().replace(/[^a-z]+/g,'');
-+  return '<section class="section"><div class="container cf-grid"><div><span class="eyebrow rv">Free counselling</span><h2 class="h-h2 rv" style="--d:.06s">Uplift your carreer by filling the form now!</h2><p class="h-p rv" style="--d:.1s">Tell us what you want to study in '+esc(d.full)+' and a Career Gyan counsellor will call you back.</p><span class="cf-badge rv">'+icon('users')+'2L + got free counselling last month</span></div>'
-+   +'<form class="form-card ht-form rv cg-cform" novalidate data-country="'+esc(d.full)+'"><div class="form-grid">'
-+   +'<div class="field"><label for="'+id+'-n">Name <i>*</i></label><input id="'+id+'-n" name="Name" type="text" autocomplete="name" required></div>'
-+   +'<div class="field"><label for="'+id+'-e">Email <i>*</i></label><input id="'+id+'-e" name="Email" type="email" autocomplete="email" required></div>'
-+   +'<div class="field"><label for="'+id+'-p">Mobile Number <i>*</i></label><input id="'+id+'-p" name="Mobile Number" type="tel" autocomplete="tel" required></div>'
-+   +'<div class="field"><label for="'+id+'-c">Course</label><select id="'+id+'-c" name="Course"><option value="">Select Course</option><option>Science</option><option>Technology</option><option>Engineering</option><option>Management</option><option>Pharmacy</option><option>Others</option></select></div>'
-+   +'<div class="field"><label for="'+id+'-g">Program</label><select id="'+id+'-g" name="Program"><option value="">Select Program</option><option>Masters</option><option>Bachelors</option></select></div>'
-+   +'</div><button class="btn btn-primary" type="submit" style="margin-top:24px;width:100%">Submit The Form '+icon('arrow')+'</button><p class="form-note" role="status" aria-live="polite"></p></form></div></section>';
-+}
-+document.addEventListener('submit',function(e){
-+  var form=e.target.closest&&e.target.closest('form.cg-cform');if(!form)return;
-+  e.preventDefault();
-+  var note=form.querySelector('.form-note'),ok=true,v=function(n){var f=form.querySelector('[name="'+n+'"]');return f&&f.value.trim()?f.value.trim():null};
-+  form.querySelectorAll('[required]').forEach(function(f){var bad=!f.value.trim()||(f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value));f.parentNode.classList.toggle('err',bad);if(bad)ok=false});
-+  if(!ok){note.textContent='Please fill in the required fields marked with *.';note.classList.add('show');return}
-+  var country=form.getAttribute('data-country');
-+  var row={source:'country',full_name:v('Name'),email:v('Email'),phone:v('Mobile Number'),destination:country,course:v('Course'),message:v('Program')?'Program: '+v('Program'):null,page_url:location.href.slice(0,500)};
-+  var lines=['Name: '+row.full_name,'Email: '+row.email,'Mobile Number: '+row.phone,'Country: '+country].concat(row.course?['Course: '+row.course]:[]).concat(v('Program')?['Program: '+v('Program')]:[]);
-+  var mailto='mailto:enquiry@careergyan.co?subject='+encodeURIComponent('Study in '+country+' enquiry – '+row.full_name)+'&body='+encodeURIComponent(lines.join('\n'));
-+  var btn=form.querySelector('[type="submit"]');btn.disabled=true;note.textContent='Sending your enquiry…';note.classList.add('show');
-+  cgInsert('enquiries',row).then(function(){form.reset();note.innerHTML='Thank you! Your enquiry has been received. A Career Gyan counsellor will contact you shortly. You can also call <a href="tel:+919606868888">+91 96068 68888</a>.'})
-+  .catch(function(err){try{console.warn(err)}catch(_){}window.location.href=mailto;note.innerHTML='Thank you! Your email app has opened with your enquiry addressed to <b>enquiry@careergyan.co</b> — just press send. You can also call <a href="tel:+919606868888">+91 96068 68888</a>.'})
-+  .then(function(){btn.disabled=false});
-+});
-+document.addEventListener('input',function(e){var f=e.target.closest&&e.target.closest('form.cg-cform [required]');if(f)f.parentNode.classList.remove('err')});
 +
-@@ -1150 +1394,0 @@
+@@ -1150 +1382,0 @@
 -window.addEventListener('hashchange',route);
-@@ -1158 +1402 @@
+@@ -1158 +1390 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```
