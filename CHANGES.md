@@ -57,6 +57,8 @@
 - CTA photo: responsive sizes
 - Hero parallax: run once per frame instead of on every scroll event
 - Roadmap cards: run once per frame instead of on every scroll event
+- Student stories (home): photo poster + Instagram Reel tag so the cards read as videos
+- Student stories (inner pages): photo poster + Instagram Reel tag
 - New code block (Supabase + eligibility review/results), clearly marked
 - All script-built images decode off the main thread
 
@@ -65,6 +67,9 @@
 ```diff
 --- original <script> blocks (index.html)
 +++ assets/js/main.js
+@@ -3 +3 @@
+-var IMG='https://careergyan.co/images/';
++var IMG='images/';
 @@ -38 +38 @@
 -  {s:'bangalore',n:'Bangalore',route:'#/locations/bangalore'},
 +  {s:'bangalore',n:'Bangalore',route:'abroad-education-consultants-in-bangalore.html'},
@@ -76,6 +81,9 @@
 -  partners:function(){var l=PARTNERS.map(function(p){return '<img src="'+IMG+'home/partners/'+p+'" alt="'+p.split('.')[0].replace(/_|-/g,' ')+'" loading="lazy">'}).join('');return '<div class="marquee rv"><div class="track">'+l+l+'</div></div>'},
 +  assist:function(){return '<div class="assist">'+[['sop','SOP','Statement of Purpose'],['lor','LOR','Letter of Recommendation'],['lom','LOM','Letter of Motivation'],['cv','CV','Curriculum Vitae'],['visa','Visa','Student Visa Process']].map(function(a,i){return '<article class="assist-card rv" style="--d:'+(i*.08)+'s">'+(a[0]==='lom'?'<span class="assist-ic">'+icon('compass')+'</span>':'<img decoding="async" src="'+IMG+'home/assistance/'+a[0]+'.png" alt="'+a[1]+'" loading="lazy">')+'<h3>'+a[1]+'</h3><p>'+a[2]+'</p><span class="big">'+a[1]+'</span></article>'}).join('')+'</div>'},
 +  partners:function(){var l=PARTNERS.map(function(p){return '<img decoding="async" src="'+IMG+'home/partners/'+p+'" alt="'+PALT(p)+'" loading="lazy">'}).join('');return '<div class="marquee rv"><div class="track">'+l+l+'</div></div>'},
+@@ -103 +103 @@
+-    return '<div class="reels">'+r.map(function(id,i){return '<a class="reel rv" style="--d:'+(i*.08)+'s" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener"><span class="play">'+icon('play')+'</span><small>@careergyanblr</small><b>Student story '+(i+1)+'</b></a>'}).join('')+'</div>';
++    return '<div class="reels">'+r.map(function(id,i){return '<a class="reel rv" style="--d:'+(i*.08)+'s" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener"><img decoding="async" class="cg-poster" src="'+IMG+'careergallery/'+['gallery-7.png','gallery-8.png','gallery-6.png','gallery-5.png'][i]+'" alt="CareerGyan student story '+(i+1)+'" loading="lazy"><span class="cg-shade"></span><span class="cg-ig">'+icon('ig')+'Instagram Reel</span><span class="play">'+icon('play')+'</span><small>@careergyanblr</small><b>Student story '+(i+1)+'</b></a>'}).join('')+'</div>';
 @@ -111 +111 @@
 -    return n.map(function(x,i){return '<a class="post rv" style="--d:'+(i*.1)+'s" href="'+x[3]+'" target="_blank" rel="noopener"><div class="media"><img src="'+IMG+'events/'+x[0]+'" alt="'+esc(x[1])+'" loading="lazy"></div><div class="body"><span class="tag">'+x[4]+'</span><h3>'+esc(x[1])+'</h3><p>'+esc(x[2])+'</p><span class="link-arrow">Read more '+icon('arrow')+'</span></div></a>'}).join('');
 +    return n.map(function(x,i){return '<a class="post rv" style="--d:'+(i*.1)+'s" href="'+x[3]+'" target="_blank" rel="noopener"><div class="media"><img decoding="async" src="'+IMG+'events/'+x[0]+'" alt="'+esc(x[1])+'" loading="lazy"></div><div class="body"><span class="tag">'+x[4]+'</span><h3>'+esc(x[1])+'</h3><p>'+esc(x[2])+'</p><span class="link-arrow">Read more '+icon('arrow')+'</span></div></a>'}).join('');
@@ -89,8 +97,10 @@
 +function courseHref(s){return 'course-'+s+'.html'}
 +function locHref(l){return l.route||l.page.replace(/\.php$/,'.html')}
 +function flagHTML(k,cls){var c=COUNTRIES[k];return '<span class="flag">'+(c.img?'<img decoding="async" src="'+IMG+'home/countries/'+c.img+'" alt="'+c.n+'" loading="lazy">':'<span class="mono">'+c.c+'</span>')+'</span>'}
-@@ -129 +129 @@
+@@ -128,2 +128,2 @@
+-function eventImage(e){return /^https?:\/\//i.test(e.img)?e.img:'https://careergyan.co/images/content/events/'+e.img}
 -function eventLink(e){return e.page?'workshop-registration.html':'#/contact'}
++function eventImage(e){return /^https?:\/\//i.test(e.img)?e.img:'images/content/events/'+e.img}
 +function eventLink(e){return e.page?'workshops/workshop-registration.html':'contact.html'}
 @@ -133 +133 @@
 -  return '<article class="ev'+(rv?' rv':'')+'" style="animation-delay:'+(i*.05)+'s;--d:'+(i*.1)+'s"><a class="ev-media" href="'+url+'"><span class="bgblur" style="background-image:url(\''+src+'\')"></span><img src="'+src+'" alt="'+esc(e.t)+'" loading="lazy"><span class="ev-date"><b>'+dt.d+'</b><span>'+dt.m+' '+dt.y.slice(2)+'</span></span></a>'+
@@ -151,7 +161,7 @@
 +    '<section class="section" style="padding-bottom:0"><div class="container"><div class="notice rv"><p>Our counsellors can share complete, up-to-date details for this program. Book a free counselling session to get started.</p><a class="btn btn-primary" href="contact.html">Talk to our experts '+icon('arrow')+'</a></div></div></section>'+body+
 @@ -224 +236 @@
 -  return '<div class="legal-page"><a class="legal-back" href="#/">← Back to CareerGyan</a>'+body+'<p class="legal-copy">2025 © All rights reserved by Career Gyan</p></div>';
-+  return '<div class="legal-page"><a class="legal-back" href="index.html">← Back to CareerGyan</a>'+body+'<p class="legal-copy">2025 © All rights reserved by Career Gyan</p></div>';
++  return '<div class="legal-page"><a class="legal-back" href="index.html">← Back to CareerGyan</a>'+body+'<p class="legal-copy">© 2026 Powered and secured by <a href="https://idontblabber.com" target="_blank" rel="noopener">I Don&#39;t Blabber</a></p></div>';
 @@ -228 +240 @@
 -var STATIC={'':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
 +var STATIC={'not-found':'notfound','':'home','home':'home','about':'about','courses/arts':'arts','course/arts':'arts','workshop':'events','workshop/event':'home','locations/bangalore':'bangalore','location/bangalore':'bangalore','contact':'contact','eligibility':'eligibility','check-eligibility':'eligibility'};
@@ -231,6 +241,9 @@
 -  svs.innerHTML=SVC.map(function(s,i){return '<div class="hx-ss"><img src="'+s[2]+'"'+(s[4]?' data-fb="'+s[4]+'"':'')+' alt="'+esc(s[0])+'" loading="lazy"><span class="hx-ss-num">0'+(i+1)+'</span><div class="hx-ss-card"><span><img src="'+IMG+'home/services/'+s[3]+'" alt=""></span><div><b>'+esc(s[0])+'</b><small>Career Gyan services</small></div></div></div>'}).join('');
 +  svl.innerHTML=SVC.map(function(s,i){return '<div class="hx-si rv" style="--d:'+(i*.05)+'s;--dur:'+DUR+'ms"><button><em>0'+(i+1)+'</em><span>'+esc(s[0])+'</span><i></i></button><div class="hx-si-b"><div><p>'+esc(s[1])+'</p><a href="contact.html">Talk to an expert '+icon('arrow')+'</a></div></div><span class="hx-si-bar"></span></div>'}).join('');
 +  svs.innerHTML=SVC.map(function(s,i){return '<div class="hx-ss"><img decoding="async" src="'+s[2]+'"'+(s[4]?' data-fb="'+s[4]+'"':'')+' alt="'+esc(s[0])+'" loading="lazy"><span class="hx-ss-num">0'+(i+1)+'</span><div class="hx-ss-card"><span><img decoding="async" src="'+IMG+'home/services/'+s[3]+'" alt="" loading="lazy"></span><div><b>'+esc(s[0])+'</b><small>Career Gyan services</small></div></div></div>'}).join('');
+@@ -508 +523 @@
+-  $('#hxPhones').innerHTML=['C9B3UmVtAwZ','C9hcVH5tWSo','DBgGOV8sUDP','DDYsiQsNVdu'].map(function(id,i){return '<a class="hx-ph rv" style="--d:'+(i*.1)+'s" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener"><div class="hx-ph-in"><span class="play">'+icon('play')+'</span><small>@careergyanblr</small><b>Student story '+(i+1)+'</b></div></a>'}).join('');
++  $('#hxPhones').innerHTML=['C9B3UmVtAwZ','C9hcVH5tWSo','DBgGOV8sUDP','DDYsiQsNVdu'].map(function(id,i){return '<a class="hx-ph rv" style="--d:'+(i*.1)+'s" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener"><div class="hx-ph-in"><img decoding="async" class="cg-poster" src="'+IMG+'careergallery/'+['gallery-7.png','gallery-8.png','gallery-6.png','gallery-5.png'][i]+'" alt="CareerGyan student story '+(i+1)+'" loading="lazy"><span class="cg-shade"></span><span class="cg-ig">'+icon('ig')+'Instagram Reel</span><span class="play">'+icon('play')+'</span><small>@careergyanblr</small><b>Student story '+(i+1)+'</b></div></a>'}).join('');
 @@ -511 +526 @@
 -  function lg(list){var h=list.map(function(p){return '<div class="hx-lg"><img src="'+IMG+'home/partners/'+p+'" alt="'+p.split('.')[0].replace(/_|-/g,' ')+'" loading="lazy"></div>'}).join('');return '<div class="hx-mq-t">'+h+h+h+'</div>'}
 +  function lg(list){var h=list.map(function(p){return '<div class="hx-lg"><img decoding="async" src="'+IMG+'home/partners/'+p+'" alt="'+PALT(p)+'" loading="lazy"></div>'}).join('');return '<div class="hx-mq-t">'+h+h+h+'</div>'}
@@ -286,8 +299,10 @@
 @@ -823 +836 @@
 -window.addEventListener('scroll',function(){var y=window.pageYOffset;if(y>900)return;$$('.page.active .ihero .bg').forEach(function(el){el.style.translate='0 '+(y*0.28)+'px'})},{passive:true});
 +var pxT=0;window.addEventListener('scroll',function(){if(pxT)return;pxT=requestAnimationFrame(function(){pxT=0;var y=window.pageYOffset;if(y>900)return;$$('.page.active .ihero .bg').forEach(function(el){el.style.translate='0 '+(y*0.28)+'px'})})},{passive:true});
-@@ -827 +840 @@
+@@ -826,2 +839,2 @@
+-var EL_B='https://eligibility.careergyan.co/wp-content/uploads/';
 -var EL_A={},EL_H=[],EL_CUR=null,EL_DONE=false;
++var EL_B='images/eligibility/wp-content/uploads/';
 +var EL_A={},EL_H=[],EL_CUR=null,EL_DONE=false,EL_REVIEWED=false;
 @@ -917 +930 @@
 -function elEnd(){EL_DONE=true;elRender()}
@@ -318,12 +333,12 @@
 -  var h='<div class="ihero"><img class="bg" src="'+UNS('1759784839707-a32c910a7747',2000)+'" alt=""><div class="container ihero-grid"><div><nav class="crumbs rv"><a href="#/">Home</a>'+icon('right')+'<span>Eligibility Checker</span></nav><h1 class="rv" style="--d:.06s">Study abroad eligibility at your fingertips</h1><p class="h-lead rv" style="--d:.12s">Online AI Based Abroad Education Eligibility Checker assesses your eligibility for studying abroad based on your education and Personal preferences.</p><div class="h-actions rv" style="--d:.18s"><a class="btn btn-gold" href="#chat1" data-scroll>Check Your Eligibility Now '+icon('arrow')+'</a></div></div><div class="glass rv" style="--d:.2s"><div class="glass-h"><span>Career Gyan</span>'+icon('phone')+'</div><a class="glass-line" href="tel:+919686898888">'+icon('phone')+'+91 9686898888</a></div></div></div>';
 -  h+='<div class="container h-stats-wrap"><div class="el-feats">'+[['Countries-Icon-3.png','Countries','Explore the best-fit country for pursuing your abroad education dreams'],['Colleges-Icon-2.png','Colleges','Explore the ideal institution<br>that is well suited for your educational goals'],['Courses-Icon-3.png','Courses','Explore the ideal program tailored to your specific field of interest and professional goals.']].map(function(f,i){return '<div class="el-feat rv" style="--d:'+(i*.08)+'s"><div class="ei"><img src="'+U+'2023/05/'+f[0]+'" alt="'+f[1]+'" loading="lazy"></div><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div>'}).join('')+'</div></div>';
 +  var h='<div class="ihero"><img decoding="async" class="bg" src="'+UNS('1759784839707-a32c910a7747',2000)+'"'+HSET(UNS('1759784839707-a32c910a7747',2000))+' alt="Study abroad eligibility checker" fetchpriority="high"><div class="container ihero-grid"><div><nav class="crumbs rv"><a href="index.html">Home</a>'+icon('right')+'<span>Eligibility Checker</span></nav><h1 class="rv" style="--d:.06s">Study abroad eligibility at your fingertips</h1><p class="h-lead rv" style="--d:.12s">Online AI Based Abroad Education Eligibility Checker assesses your eligibility for studying abroad based on your education and Personal preferences.</p><div class="h-actions rv" style="--d:.18s"><a class="btn btn-gold" href="#chat1" data-scroll>Check Your Eligibility Now '+icon('arrow')+'</a></div></div><div class="glass rv" style="--d:.2s"><div class="glass-h"><span>Career Gyan</span>'+icon('phone')+'</div><a class="glass-line" href="tel:+919686898888">'+icon('phone')+'+91 9686898888</a></div></div></div>';
-+  h+='<div class="container h-stats-wrap"><div class="el-feats">'+[['Countries-Icon-3.png','Countries','Explore the best-fit country for pursuing your abroad education dreams'],['Colleges-Icon-2.png','Colleges','Explore the ideal institution<br>that is well suited for your educational goals'],['Courses-Icon-3.png','Courses','Explore the ideal program tailored to your specific field of interest and professional goals.']].map(function(f,i){return '<div class="el-feat rv" style="--d:'+(i*.08)+'s"><div class="ei"><img decoding="async" src="'+U+'2023/05/'+f[0]+'" alt="'+f[1]+'" loading="lazy"></div><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div>'}).join('')+'</div></div>';
++  h+='<div class="container h-stats-wrap"><div class="el-feats">'+[['countries.svg','Countries','Explore the best-fit country for pursuing your abroad education dreams'],['colleges.svg','Colleges','Explore the ideal institution<br>that is well suited for your educational goals'],['courses.svg','Courses','Explore the ideal program tailored to your specific field of interest and professional goals.']].map(function(f,i){return '<div class="el-feat rv" style="--d:'+(i*.08)+'s"><div class="ei"><img decoding="async" src="images/eligibility/icons/'+f[0]+'" alt="'+f[1]+'" loading="lazy"></div><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div>'}).join('')+'</div></div>';
 @@ -976,2 +991,2 @@
 -  h+='<section class="section bg-soft"><div class="container el-how"><div><span class="eyebrow rv">Process</span><h2 class="h-h2 rv" style="--d:.06s">How it Works</h2><p class="lead rv" style="--d:.1s;margin-top:14px">The AI eligibility checker assesses education, residence, study country, level, field, and preferred programs to determine study abroad eligibility</p><div class="el-steps">'+[['AI Checker','Visit Career Gyan AI Checker'],['Data Feed','Give all the Information Asked'],['Get Your result','Get all your Result Instant']].map(function(s,i){return '<div class="el-st rv" style="--d:'+(.12+i*.07)+'s"><span class="n">'+(i+1)+'</span><div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div></div>'}).join('')+'</div></div><button class="el-vid rv" type="button" data-yt="PbY8SHFqqNw" aria-label="Play video"><img src="'+U+'2021/10/work1.jpg" alt="" loading="lazy" onerror="this.src=\'https://img.youtube.com/vi/PbY8SHFqqNw/hqdefault.jpg\'"><span class="pl">'+icon('play')+'</span></button></div></section>';
 -  h+='<section class="section"><div class="container"><div class="el-tst rv"><img class="bg" src="'+U+'2023/05/Career-Gyan-Banner-4.webp" alt="" loading="lazy" onerror="this.style.display=\'none\'"><div class="el-tst-grid"><div><span class="eyebrow gold">Testimonials</span><h2>How Are Our Client\'s Thanks Us About Our Services</h2><p>This should be used to tell a story and let your users know a little more<br>about your product or service. How can you benefit them?</p><div class="el-stats"><div><b data-count="97.7%">97.7%</b></div><div><b data-count="100+">100+</b><span>Countries</span></div><div><b data-count="10000+">10000+</b><span>Users</span></div></div></div><button class="el-vid" type="button" data-yt="1iIZeIy7TqM" aria-label="Play video" style="aspect-ratio:16/11"><img src="'+U+'2023/05/Career-Gyan-Banner-3.webp" alt="" loading="lazy"><span class="pl">'+icon('play')+'</span></button></div></div></div></section>';
-+  h+='<section class="section bg-soft"><div class="container el-how"><div><span class="eyebrow rv">Process</span><h2 class="h-h2 rv" style="--d:.06s">How it Works</h2><p class="lead rv" style="--d:.1s;margin-top:14px">The AI eligibility checker assesses education, residence, study country, level, field, and preferred programs to determine study abroad eligibility</p><div class="el-steps">'+[['AI Checker','Visit Career Gyan AI Checker'],['Data Feed','Give all the Information Asked'],['Get Your result','Get all your Result Instant']].map(function(s,i){return '<div class="el-st rv" style="--d:'+(.12+i*.07)+'s"><span class="n">'+(i+1)+'</span><div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div></div>'}).join('')+'</div></div><button class="el-vid rv" type="button" data-yt="PbY8SHFqqNw" aria-label="Play video"><img decoding="async" src="'+U+'2021/10/work1.jpg" alt="" loading="lazy" onerror="this.src=\'https://img.youtube.com/vi/PbY8SHFqqNw/hqdefault.jpg\'"><span class="pl">'+icon('play')+'</span></button></div></section>';
-+  h+='<section class="section"><div class="container"><div class="el-tst rv"><img decoding="async" class="bg" src="'+U+'2023/05/Career-Gyan-Banner-4.webp" alt="" loading="lazy" onerror="this.style.display=\'none\'"><div class="el-tst-grid"><div><span class="eyebrow gold">Testimonials</span><h2>How Are Our Client\'s Thanks Us About Our Services</h2><p>This should be used to tell a story and let your users know a little more<br>about your product or service. How can you benefit them?</p><div class="el-stats"><div><b data-count="97.7%">97.7%</b></div><div><b data-count="100+">100+</b><span>Countries</span></div><div><b data-count="10000+">10000+</b><span>Users</span></div></div></div><button class="el-vid" type="button" data-yt="1iIZeIy7TqM" aria-label="Play video" style="aspect-ratio:16/11"><img decoding="async" src="'+U+'2023/05/Career-Gyan-Banner-3.webp" alt="" loading="lazy"><span class="pl">'+icon('play')+'</span></button></div></div></div></section>';
++  h+='<section class="section bg-soft"><div class="container el-how"><div><span class="eyebrow rv">Process</span><h2 class="h-h2 rv" style="--d:.06s">How it Works</h2><p class="lead rv" style="--d:.1s;margin-top:14px">The AI eligibility checker assesses education, residence, study country, level, field, and preferred programs to determine study abroad eligibility</p><div class="el-steps">'+[['AI Checker','Visit Career Gyan AI Checker'],['Data Feed','Give all the Information Asked'],['Get Your result','Get all your Result Instant']].map(function(s,i){return '<div class="el-st rv" style="--d:'+(.12+i*.07)+'s"><span class="n">'+(i+1)+'</span><div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div></div>'}).join('')+'</div></div><button class="el-vid rv" type="button" data-yt="PbY8SHFqqNw" aria-label="Play video"><img decoding="async" src="images/content/events/career-gyan-education-fair.png" alt="" loading="lazy" onerror="this.src=\'https://img.youtube.com/vi/PbY8SHFqqNw/hqdefault.jpg\'"><span class="pl">'+icon('play')+'</span></button></div></section>';
++  h+='<section class="section"><div class="container"><div class="el-tst rv"><img decoding="async" class="bg" src="images/about/our_mission.png" alt="" loading="lazy" onerror="this.style.display=\'none\'"><div class="el-tst-grid"><div><span class="eyebrow gold">Testimonials</span><h2>How Are Our Client\'s Thanks Us About Our Services</h2><p>This should be used to tell a story and let your users know a little more<br>about your product or service. How can you benefit them?</p><div class="el-stats"><div><b data-count="97.7%">97.7%</b></div><div><b data-count="100+">100+</b><span>Countries</span></div><div><b data-count="10000+">10000+</b><span>Users</span></div></div></div><button class="el-vid" type="button" data-yt="1iIZeIy7TqM" aria-label="Play video" style="aspect-ratio:16/11"><img decoding="async" src="images/about/our_vision.png" alt="" loading="lazy"><span class="pl">'+icon('play')+'</span></button></div></div></div></section>';
 @@ -998 +1013 @@
 -var OFF_PAGE={bangalore:['#/locations/bangalore','Career Gyan Bangalore'],hyderabad:['#/location/hyderabad','Career Gyan Hyderabad'],pune:['#/location/pune','Career Gyan Pune'],davanagere:['#/location/davanagere','Career Gyan Davanagere'],germany:['#/location/germany','Career Gyan Germany']};
 +var OFF_PAGE={bangalore:['abroad-education-consultants-in-bangalore.html','Career Gyan Bangalore'],hyderabad:['abroad-education-consultants-in-hyderabad.html','Career Gyan Hyderabad'],pune:['abroad-education-consultants-in-pune.html','Career Gyan Pune'],davanagere:['abroad-education-consultants-in-davanagere.html','Career Gyan Davanagere'],germany:['study-abroad-consultants-in-germany.html','Career Gyan Germany']};
@@ -342,7 +357,7 @@
 @@ -1142 +1157 @@
 -  var h=location.hash.replace(/^#\/?/,'');
 +  var h=document.body.getAttribute('data-route')||'';
-@@ -1147,0 +1163,105 @@
+@@ -1147,0 +1163,127 @@
 +
 +/* =====================================================================
 +   ADDED (2026-11-11): Supabase saving for the enquiry forms + eligibility
@@ -448,9 +463,31 @@
 +  function watch(){$$('.hx-sec,.h-hero,.ihero,.section,.footer,.hx-partners,.h-partners').forEach(function(el){if(!el.__cgw){el.__cgw=1;o.observe(el)}})}
 +  setTimeout(watch,0);window.addEventListener('load',watch);})();
 +
-@@ -1150 +1269,0 @@
++/* --- (2026-11-12) student-story reels play the original Instagram video in a popup on this site --- */
++(function(){
++  var md=null;
++  function close(){if(!md)return;md.classList.remove('show');md.querySelector('.cg-rm-v').innerHTML='';document.documentElement.style.overflow=''}
++  function open(id,url){
++    if(!md){md=document.createElement('div');md.className='cg-rm';md.setAttribute('role','dialog');md.setAttribute('aria-modal','true');md.setAttribute('aria-label','Student story video');
++      md.innerHTML='<div class="cg-rm-in"><button class="cg-rm-x" type="button" aria-label="Close">×</button><div class="cg-rm-v"></div><a class="cg-rm-ig" target="_blank" rel="noopener">Open on Instagram ↗</a></div>';
++      document.body.appendChild(md);
++      md.addEventListener('click',function(e){if(e.target===md||e.target.classList.contains('cg-rm-x'))close()});
++      document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});}
++    md.querySelector('.cg-rm-v').innerHTML='<iframe src="https://www.instagram.com/reel/'+id+'/embed/" title="CareerGyan student story" allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowfullscreen loading="eager"></iframe>';
++    md.querySelector('.cg-rm-ig').href=url;
++    md.classList.add('show');document.documentElement.style.overflow='hidden';md.querySelector('.cg-rm-x').focus();
++  }
++  document.addEventListener('click',function(e){
++    var a=e.target.closest&&e.target.closest('a.hx-ph[href*="instagram.com/reel/"],a.reel[href*="instagram.com/reel/"]');
++    if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
++    var m=a.href.match(/\/reel\/([^\/?#]+)/);if(!m)return;
++    e.preventDefault();open(m[1],a.href);
++  });
++})();
++
+@@ -1150 +1291,0 @@
 -window.addEventListener('hashchange',route);
-@@ -1158 +1277 @@
+@@ -1158 +1299 @@
 -  var PAGE='workshop-registration.html';
 +  var PAGE='workshops/workshop-registration.html';
 ```

@@ -1,5 +1,5 @@
-# Files the pages load from https://careergyan.co/images/ (collected from every rendered page).
-# Copy the old site's /images folder into the project root so these keep working after the domain moves to Vercel.
+# Every /images/... file the pages use (collected from every rendered page).
+# All 78 are included in this project's images/ folder (compressed, same names) and load from there.
 # URL-encoded names (%20 etc.) are files with spaces in their names.
 /images/about/founder_img.png
 /images/about/our_mission.png

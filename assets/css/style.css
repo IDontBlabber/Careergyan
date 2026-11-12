@@ -2273,3 +2273,24 @@ textarea.el-in{min-height:110px;resize:vertical}
   .h-dots button{position:relative}
   .h-dots button::after{content:"";position:absolute;inset:-14px -2px}
 }
+
+/* (2026-11-12) student-story reels: photo poster, readable caption, Instagram tag, solid play button */
+.hx-ph-in>.cg-poster,.reel>.cg-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hx-ph-in>.cg-shade,.reel>.cg-shade{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(11,22,56,.35) 0%,rgba(11,22,56,0) 30%,rgba(11,22,56,.1) 55%,rgba(11,22,56,.9) 100%)}
+.hx-ph-in>.cg-ig,.reel>.cg-ig{position:absolute;top:24px;left:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 7px;border-radius:999px;background:rgba(255,255,255,.94);color:#13204A;font-size:11.5px;font-weight:700;letter-spacing:.01em;line-height:1.2;white-space:nowrap}
+.reel>.cg-ig{top:16px}
+.cg-ig .ic{width:15px;height:15px;color:#D62976}
+.hx-ph .play,.reel .play{background:rgba(255,255,255,.94);color:var(--blue);border-color:#fff;box-shadow:0 10px 30px -8px rgba(0,0,0,.45)}
+.reel:hover .play{color:#fff}
+.hx-ph-in small,.reel small{color:rgba(255,255,255,.85)}
+@media(max-width:480px){.hx-ph-in>.cg-ig,.reel>.cg-ig{font-size:10px;padding:4px 8px 4px 6px;left:10px}.cg-ig .ic{width:13px;height:13px}}
+
+/* (2026-11-12) reel popup: the original Instagram video, phone-sized */
+.cg-rm{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(6,14,36,.82);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.cg-rm.show{display:flex}
+.cg-rm-in{position:relative;width:min(400px,100%);display:flex;flex-direction:column;gap:12px;align-items:center}
+.cg-rm-v{width:100%;height:min(720px,calc(100vh - 110px));border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+.cg-rm-v iframe{width:100%;height:100%;border:0;display:block}
+.cg-rm-x{position:absolute;top:-14px;right:-14px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#13204A;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.cg-rm-ig{color:#fff;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:480px){.cg-rm{padding:14px}.cg-rm-x{top:-10px;right:-6px}}

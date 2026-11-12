@@ -8,7 +8,7 @@ Every page is a real HTML file with its own URL, title, description, canonical, 
 /                       index.html (home)
 /about-us               about-us.html
 /study-in-uk …          study-in-*.html  (18 countries)
-/course/arts …          course/*.html    (7 courses)
+/course-arts …          course-*.html    (7 courses)
 /workshops, /contact, /eligibility, /student-loan, /all-countries
 /workshops/workshop-registration   workshops/workshop-registration.html (uses <base href="../">)
 /abroad-education-consultants-in-{bangalore,hyderabad,bahrain,pune,davanagere}, /study-abroad-consultants-in-germany
@@ -17,6 +17,8 @@ assets/css/style.css     shared stylesheet (original CSS, verbatim)
 assets/css/workshop.css  workshop registration page stylesheet (original rules, scoped to the page content)
 assets/js/main.js        shared script (original JS, routing edits only; see CHANGES.md)
 assets/images/           og-image.png, careergyan-logo.png
+images/                  every photo, logo and icon the pages use (compressed copies of the old site's /images)
+images/eligibility/      eligibility-checker pictures (from eligibility.careergyan.co)
 vercel.json  robots.txt  sitemap.xml  site.webmanifest  favicons
 CHANGES.md  MIGRATION-NOTES.md  IMAGES-REQUIRED.txt  VERIFICATION.md
 supabase/schema.sql      run once in Supabase to create the two form tables
@@ -26,33 +28,30 @@ With `cleanUrls`, `about-us.html` is served at `/about-us`. Requests for `/about
 
 ---
 
-## ⚠️ Before you switch the domain: copy the `/images` folder
+## Images are inside the project
 
-The pages load their pictures, logos and icons from `https://careergyan.co/images/...`, exactly like the original file. Those files live on the **current PHP site**. When careergyan.co points at Vercel, they must exist in this project too, or every logo and photo will break.
+All pictures, logos and icons load from the project's own `images/` folder, so the site doesn't depend on the old server and works offline.
 
-1. Download the whole `images/` folder from the current server (cPanel File Manager → `public_html/images` → Compress → Download).
-2. Unzip it into the project root so you get `careergyan-site/images/logo.png`, `careergyan-site/images/home/...` and so on.
-3. Deploy. `IMAGES-REQUIRED.txt` lists every `/images/...` path the pages use (78 files), so you can check none are missing.
+- `images/...` keeps the old site's folder layout and file names. All 78 files the pages use are there (see `IMAGES-REQUIRED.txt`).
+- `images/eligibility/wp-content/uploads/...` holds the eligibility-checker pictures.
+- Everything was compressed with the same names and formats: 22.1 MB → 8.9 MB. The big event banners and blog pictures went from 1–1.6 MB to 0.2–0.5 MB each, with no visible difference.
+- Open Graph and JSON-LD still use full `https://careergyan.co/...` URLs, because Google and social networks need absolute links.
 
-Alternative: keep the old server running on a subdomain (e.g. `old.careergyan.co`). Then add this rewrite to `vercel.json` instead of copying:
+**6 eligibility pictures weren't in `site-images.zip`, so they were replaced with relevant local ones:**
+- The intro video thumbnail now uses `images/content/events/career-gyan-education-fair.png`.
+- The second video thumbnail now uses `images/about/our_vision.png`.
+- The testimonials background now uses `images/about/our_mission.png`.
+- The Countries / Colleges / Courses icons are new SVGs in `images/eligibility/icons/`, drawn from the site's own icon set in the brand blue.
 
-```json
-"rewrites": [{ "source": "/images/:path*", "destination": "https://old.careergyan.co/images/:path*" }]
-```
+To add or replace a picture, put it in `images/` and keep the file name, so no links change.
 
 ---
 
 ## Preview on your computer
 
-Don't open `index.html` by double-clicking it. Root paths like `/assets/css/style.css` and `/study-in-uk` then point at your C: drive, so the page loads without CSS or JS and links don't work.
+Double-click any `.html` file (start with `index.html`). Links, styles and images all use relative paths, so the site works straight from the folder with nothing to install.
 
-Run a local server instead. It needs [Node.js](https://nodejs.org):
-
-- **Windows:** double-click `preview-windows.bat`. It opens http://localhost:3000.
-- **Mac/Linux:** run `./preview-mac-linux.sh`, then open http://localhost:3000.
-- **Or by hand:** `npx serve -l 3000 .` inside this folder. `serve.json` turns on clean URLs, like Vercel.
-
-`serve.json` and the preview scripts are only for local testing. Vercel ignores them.
+The forms need an internet connection to save to Supabase. The Unsplash photos and flag icons come from the internet too.
 
 ## Forms → Supabase
 
@@ -85,7 +84,7 @@ Built in:
 - Decorative animations pause while off-screen.
 - Scroll effects run once per frame instead of on every scroll event.
 
-**Biggest remaining win:** the photos and logos in `/images/` (from the old site) are PNGs. When you copy that folder in, compress them first, for example with squoosh.app or TinyPNG. Keep the same file names and formats so no links change. Large PNGs like the gallery photos are usually what makes a page feel slow.
+- The site's own images are compressed and cached by browsers for 30 days (`vercel.json`).
 
 ## Deploy to Vercel
 
@@ -103,7 +102,7 @@ Then go to Project → Settings → Domains → add `careergyan.co` and `www.car
 
 ## Add a new page
 
-1. Copy the page closest to what you need (for example `study-in-uk.html`) and name it after the URL you want. `study-in-japan.html` is served at `/study-in-japan`. For a nested URL use a folder: `course/law.html` → `/course/law`.
+1. Copy the page closest to what you need (for example `study-in-uk.html`) and name it after the URL you want. `study-in-japan.html` is served at `/study-in-japan`. 
 2. In the new file, update these in `<head>`: `<title>`, `<meta name="description">`, `<link rel="canonical">`, the `og:*`/`twitter:*` tags and the JSON-LD (breadcrumb name and URL).
 3. On `<body>`, set `data-path` to the new clean URL. `data-route` tells the shared script which view to run. Pages built by the script need a route it knows (see `route()` in `assets/js/main.js`). For a hand-written page, copy `about-us.html`, give it a new `data-route`, and replace the `<section class="page active" …>` content.
 4. Add the URL to `sitemap.xml` and add links to it from the menus. Menu links are generated in `assets/js/main.js` (`build()`). The same links are also pre-rendered into every HTML file for search engines, so update both.
@@ -119,7 +118,7 @@ grep -rl "https://careergyan.co" --include="*.html" --include="*.xml" --include=
   | xargs sed -i 's#https://careergyan.co#https://www.newdomain.com#g'
 ```
 
-On macOS use `sed -i ''`. Image URLs (`https://careergyan.co/images/...`) are replaced too. That's correct once the `/images` folder is copied in (see above).
+On macOS use `sed -i ''`. Images use relative paths, so they need no change.
 
 ## Things to finish (TODO)
 

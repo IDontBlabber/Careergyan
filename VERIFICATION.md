@@ -27,3 +27,9 @@ Checked in Chrome via Playwright. Pages were opened **directly from disk (file:/
   - Submit saves to `eligibility_submissions` and shows the budget result.
 - The "No" path shows the original message.
 - Home and contact forms save to `enquiries`. If Supabase returns an error, they fall back to the email app.
+
+## Local images (2026-11-11)
+
+- All 41 pages from disk (file://) and all 42 URLs through the local server: **0 broken images**. Every lazy image was forced to load and each page was scrolled to the bottom.
+- About 590 image requests per run were served from the project's `images/` folder. **No requests went to careergyan.co/images.** The 6 eligibility pictures missing from the upload were replaced with local ones (see README), so **no image comes from eligibility.careergyan.co either**.
+- Compression: 126 files, 22.1 MB → 8.9 MB, same names and formats. Quality check against the originals: PSNR ≥ 32.8 dB for every file (visually identical). Blog card images were resized to 1000 px wide; nothing else was resized beyond 1600 px.

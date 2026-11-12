@@ -35,3 +35,10 @@ See README → "Before you switch the domain". `IMAGES-REQUIRED.txt` lists every
 ## 4. After launch
 
 Watch Search Console → Pages → "Not found (404)" for two weeks. Any old URL that shows up there with traffic should get a redirect.
+
+## Footer credit (2026-11-12, requested)
+"2025 © All rights reserved by Career Gyan" was replaced everywhere (site footer on all pages, the legal pages, the workshop page's legal view) with "© 2026 Powered and secured by I Don't Blabber", linking to https://idontblabber.com.
+
+## Student stories (2026-11-12, requested)
+The four "Student story" cards (home page and Bangalore page) were plain blue boxes with a faint play button. Each card now shows a real CareerGyan student photo (`images/careergallery/gallery-5/6/7/8.png`), an "Instagram Reel" tag, a dark fade so the caption stays readable, and a solid white play button. Clicking still opens the reel on Instagram. To use frames from the actual reels instead, replace those four files or change the file list in `assets/js/main.js` (search `gallery-7.png`).
+Clicking a card now plays the original reel on this site, in a phone-sized popup that uses Instagram's official embed. The popup has a close button, closes with Esc or a tap outside, and has an "Open on Instagram" link. Ctrl/⌘-click still opens Instagram in a new tab. If a reel's owner turns off embedding, Instagram shows a "View on Instagram" card inside the popup instead.
